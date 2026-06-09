@@ -1126,7 +1126,7 @@ function ArticlePage({article, onBack}){
   useEffect(()=>{
     document.title=`${article.title} — Mother Pregnancy Care`;
     window.scrollTo({top:0,behavior:"smooth"});
-    return()=>{ document.title="Mother Pregnancy Care — Free AI Pregnancy Calculator"; };
+    return()=>{ document.title="Mother Pregnancy Care | Due Date Calculator & Pregnancy Guide"; };
   },[article]);
   return(
     <div style={{maxWidth:720,margin:"0 auto",padding:"32px 16px"}}>
@@ -1469,17 +1469,17 @@ export default function App(){
       if(!el){el=document.createElement("meta");prop?el.setAttribute("property",n):el.setAttribute("name",n);document.head.appendChild(el);}
       el.setAttribute("content",v);
     };
-    document.title="Mother Pregnancy Care — Free AI Pregnancy Due Date Calculator";
-    setMeta("description","Calculate your pregnancy due date instantly. Get week-by-week baby development, AI-personalized tips, nutrition guides, and 20+ expert pregnancy articles. Free forever.");
+    document.title="Mother Pregnancy Care | Due Date Calculator & Pregnancy Guide";
+    setMeta("description","Calculate your pregnancy due date instantly. Get week-by-week baby development, trimester guides, nutrition advice, and 20+ expert pregnancy articles. Completely free.");
     setMeta("keywords","pregnancy due date calculator, pregnancy week calculator, baby milestones, pregnancy tips, when is my due date, free pregnancy calculator, week by week pregnancy, pregnancy symptoms, prenatal nutrition guide");
     setMeta("robots","index, follow");
     setMeta("author","Mother Pregnancy Care");
-    setMeta("og:title","Mother Pregnancy Care — Free AI Pregnancy Calculator & Guide",true);
+    setMeta("og:title","Mother Pregnancy Care | Free Pregnancy Calculator & Expert Guides",true);
     setMeta("og:description","Your free AI-powered pregnancy companion. Due date calculator, baby milestones, nutrition guide, and 20+ expert articles.",true);
     setMeta("og:type","website",true);
     setMeta("og:site_name","Mother Pregnancy Care",true);
     setMeta("twitter:card","summary_large_image");
-    setMeta("twitter:title","Mother Pregnancy Care — Free AI Pregnancy Calculator");
+    setMeta("twitter:title","Mother Pregnancy Care | Free Pregnancy Calculator");
     setMeta("twitter:description","Calculate your due date and get personalized AI pregnancy tips. Free forever.");
     let can=document.querySelector("link[rel=canonical]");
     if(!can){can=document.createElement("link");can.rel="canonical";document.head.appendChild(can);}
@@ -1493,7 +1493,7 @@ export default function App(){
   useEffect(()=>{
     window.scrollTo({top:0,behavior:"smooth"});
     const titles={"Home":"Mother Pregnancy Care Free AI Pregnancy Due Date Calculator","Calculator":"Pregnancy Due Date Calculator Mother Pregnancy Care","Milestones":"Pregnancy Milestones Week by Week Mother Pregnancy Care","Symptoms":"Pregnancy Symptoms by Trimester Mother Pregnancy Care","Nutrition":"Pregnancy Nutrition Guide Mother Pregnancy Care","Blog":"Pregnancy Articles & Expert Guides Mother Pregnancy Care","FAQ":"Pregnancy FAQs Answered Mother Pregnancy Care","About & Contact":"About Mother Pregnancy Care","Privacy & Terms":"Privacy Policy Mother Pregnancy Care","Terms of Service":"Terms of Service Mother Pregnancy Care"};
-    document.title=titles[active]||"Mother Pregnancy Care — Free AI Pregnancy Calculator";
+    document.title=titles[active]||"Mother Pregnancy Care | Free Pregnancy Calculator";
   },[active]);
 
   const handleCookieAccept=()=>{
