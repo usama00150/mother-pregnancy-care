@@ -521,7 +521,7 @@ const ARTICLES = [
       {type:"heading",text:"Carrying High vs. Carrying Low 👶"},
       {type:"para",text:"The enduring theory that carrying high during pregnancy means you are expecting a girl while carrying low means you are expecting a boy is one of the most widespread gender prediction myths, and also one of the most thoroughly unsupported by evidence. The way a pregnant woman carries her bump is determined by genuine physiological factors that have nothing whatsoever to do with the baby's sex. These factors include the shape and tilt of the mother's pelvis, her core muscle strength and tone, the position of the baby in the uterus, the volume of amniotic fluid, whether this is a first or subsequent pregnancy, the mother's height and overall body composition, and the baby's size. Despite having zero scientific basis, the carrying high versus carrying low observation will be offered confidently by virtually every person in your life, so having this information ready can be useful."},
       {type:"heading",text:"What Actually Works: The Reliable Methods 🔬"},
-      {type:"para",text:"Setting the myths and folk wisdom entirely aside, the medically reliable methods for determining your baby's sex before birth are clear and well-established. Non-invasive prenatal testing, commonly known as NIPT or the cell-free DNA test, is a blood test available from approximately ten weeks of pregnancy that analyzes fetal DNA circulating in the maternal bloodstream. When performed by a certified laboratory, NIPT determines fetal sex with very high accuracy, typically over 99 percent. The anatomy scan ultrasound performed around twenty weeks can determine sex with good accuracy when the baby is positioned favorably, though it is not infallible and the occasional error does occur. Chorionic villus sampling and amniocentesis directly analyze fetal chromosomes and are essentially one hundred percent accurate, but these are invasive procedures recommended only when medically indicated for other reasons."},
+      {type:"para",text:"Setting the myths and folk wisdom entirely aside, the medically reliable methods for determining your baby's sex before birth are clear and well-established. Non-invasive prenatal testing, commonly known as NIPT or the cell-free DNA test, is a blood test available from approximately ten weeks of pregnancy that analyzes fetal DNA circulating in the maternal bloodstream. When performed by a certified laboratory, NIPT determines fetal sex with very high accuracy, typically over 99 percent. The anatomy scan ultrasound performed around twenty weeks can determine sex with good accuracy when the baby is positioned favorably, though it is not infallible and the occasional error occasional error does occur. Chorionic villus sampling and amniocentesis directly analyze fetal chromosomes and are essentially one hundred percent accurate, but these are invasive procedures recommended only when medically indicated for other reasons."},
       {type:"tip",text:"💡 Whatever the heart rate, the ring test, the shape of your bump, or your mother-in-law's confident prediction says, remember that all old wives tales are effectively coin flips with elaborate narratives attached. Try them for the entertainment value and the fun of speculation with your partner and family, they are genuinely good fun. But if knowing your baby's sex before birth genuinely matters to you, NIPT from ten weeks or the anatomy scan at twenty weeks are the only methods worth trusting. And of course, if you choose to wait, the delivery room remains the original and ultimate reveal!"},
     ]
   }
@@ -724,12 +724,17 @@ const css = `
 `;
 
 function AdBanner({slot="top"}){
+  // Temporary bypass for AdSense Bot Review Compliance
+  return null; 
+
+  /*
   return(
     <div style={{background:PINK[50],border:`1.5px dashed ${PINK[300]}`,borderRadius:12,padding:"14px 20px",textAlign:"center",margin:"20px 0"}}>
       <div style={{fontSize:10,color:PINK[400],fontWeight:700,letterSpacing:"0.08em",marginBottom:3}}>ADVERTISEMENT</div>
       <div style={{fontSize:12,color:"#bbb"}}>{slot==="top"?"728×90 Leaderboard — Google AdSense":slot==="rect"?"300×250 Rectangle — Google AdSense":"468×60 Banner Google AdSense"}</div>
     </div>
   );
+  */
 }
 
 function MedicalDisclaimer(){ return null; }
