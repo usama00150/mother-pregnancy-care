@@ -9,7 +9,7 @@ const TRANSLATIONS = {
   en:{
     heroTag:"FREE PREGNANCY TOOL",
     heroTitle:"Your Pregnancy Journey, Week by Week",
-    heroDesc:"Calculate your due date, track baby's development, and get personalized AI tips for every stage of your pregnancy.",
+    heroDesc:"Calculate your due date, track baby's development, and get personalized tips for every stage of your pregnancy.",
     calcBtn:"Calculate My Due Date →",
     viewMilestones:"View Milestones",
     allInOne:"Everything You Need, In One Place",
@@ -28,7 +28,7 @@ const TRANSLATIONS = {
     trimester1:"1st Trimester",trimester2:"2nd Trimester",trimester3:"3rd Trimester",
   },
   ur:{
-    heroTag:"مفت اے آئی پریگننسی ٹول",
+    heroTag:"مفت پریگننسی ٹول",
     heroTitle:"آپ کا حمل کا سفر، ہفتہ بہ ہفتہ",
     heroDesc:"اپنے بچے کی پیدائش کی متوقع تاریخ کا حساب لگائیں، بچے کی نشوونما کو ٹریک کریں، اور ہر مرحلے کے لیے اے آئی مشورے حاصل کریں۔",
     calcBtn:"تاریخ کا حساب لگائیں ←",viewMilestones:"نشوونما کے مراحل",
@@ -46,7 +46,7 @@ const TRANSLATIONS = {
     trimester1:"پہلا مرحلہ",trimester2:"دوسرا مرحلہ",trimester3:"تیسرا مرحلہ",
   },
   hi:{
-    heroTag:"मुफ़्त एआई-पावर्ड प्रेग्नेंसी टूल",
+    heroTag:"मुफ़्त प्रेग्नेंसी टूल",
     heroTitle:"आपकी गर्भावस्था की यात्रा, सप्ताह दर सप्ताह",
     heroDesc:"अपने शिशु के जन्म की संभावित तारीख की गणना करें, विकास को ट्रैक करें, और गर्भावस्था के हर चरण के लिए व्यक्तिगत एआई टिप्स प्राप्त करें।",
     calcBtn:"डिलीवरी डेट जानें →",viewMilestones:"विकास के चरण देखें",
@@ -521,7 +521,7 @@ const ARTICLES = [
       {type:"heading",text:"Carrying High vs. Carrying Low 👶"},
       {type:"para",text:"The enduring theory that carrying high during pregnancy means you are expecting a girl while carrying low means you are expecting a boy is one of the most widespread gender prediction myths, and also one of the most thoroughly unsupported by evidence. The way a pregnant woman carries her bump is determined by genuine physiological factors that have nothing whatsoever to do with the baby's sex. These factors include the shape and tilt of the mother's pelvis, her core muscle strength and tone, the position of the baby in the uterus, the volume of amniotic fluid, whether this is a first or subsequent pregnancy, the mother's height and overall body composition, and the baby's size. Despite having zero scientific basis, the carrying high versus carrying low observation will be offered confidently by virtually every person in your life, so having this information ready can be useful."},
       {type:"heading",text:"What Actually Works: The Reliable Methods 🔬"},
-      {type:"para",text:"Setting the myths and folk wisdom entirely aside, the medically reliable methods for determining your baby's sex before birth are clear and well-established. Non-invasive prenatal testing, commonly known as NIPT or the cell-free DNA test, is a blood test available from approximately ten weeks of pregnancy that analyzes fetal DNA circulating in the maternal bloodstream. When performed by a certified laboratory, NIPT determines fetal sex with very high accuracy, typically over 99 percent. The anatomy scan ultrasound performed around twenty weeks can determine sex with good accuracy when the baby is positioned favorably, though it is not infallible and the occasional error occasional error does occur. Chorionic villus sampling and amniocentesis directly analyze fetal chromosomes and are essentially one hundred percent accurate, but these are invasive procedures recommended only when medically indicated for other reasons."},
+      {type:"para",text:"Setting the myths and folk wisdom entirely aside, the medically reliable methods for determining your baby's sex before birth are clear and well-established. Non-invasive prenatal testing, commonly known as NIPT or the cell-free DNA test, is a blood test available from approximately ten weeks of pregnancy that analyzes fetal DNA circulating in the maternal bloodstream. When performed by a certified laboratory, NIPT determines fetal sex with very high accuracy, typically over 99 percent. The anatomy scan ultrasound performed around twenty weeks can determine sex with good accuracy when the baby is positioned favorably, though it is not infallible and the occasional error does occur. Chorionic villus sampling and amniocentesis directly analyze fetal chromosomes and are essentially one hundred percent accurate, but these are invasive procedures recommended only when medically indicated for other reasons."},
       {type:"tip",text:"💡 Whatever the heart rate, the ring test, the shape of your bump, or your mother-in-law's confident prediction says, remember that all old wives tales are effectively coin flips with elaborate narratives attached. Try them for the entertainment value and the fun of speculation with your partner and family, they are genuinely good fun. But if knowing your baby's sex before birth genuinely matters to you, NIPT from ten weeks or the anatomy scan at twenty weeks are the only methods worth trusting. And of course, if you choose to wait, the delivery room remains the original and ultimate reveal!"},
     ]
   }
@@ -724,17 +724,7 @@ const css = `
 `;
 
 function AdBanner({slot="top"}){
-  // Temporary bypass for AdSense Bot Review Compliance
-  return null; 
-
-  /*
-  return(
-    <div style={{background:PINK[50],border:`1.5px dashed ${PINK[300]}`,borderRadius:12,padding:"14px 20px",textAlign:"center",margin:"20px 0"}}>
-      <div style={{fontSize:10,color:PINK[400],fontWeight:700,letterSpacing:"0.08em",marginBottom:3}}>ADVERTISEMENT</div>
-      <div style={{fontSize:12,color:"#bbb"}}>{slot==="top"?"728×90 Leaderboard — Google AdSense":slot==="rect"?"300×250 Rectangle — Google AdSense":"468×60 Banner Google AdSense"}</div>
-    </div>
-  );
-  */
+  return null;
 }
 
 function MedicalDisclaimer(){ return null; }
@@ -1001,7 +991,7 @@ function Calculator({t}){
               <div style={{background:PINK[100],borderRadius:10,width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>✨</div>
               <div>
                 <div style={{fontWeight:700,color:PINK[800],fontSize:14}}>{t.aiInsightsTitle} {result.weeks}</div>
-                <div style={{fontSize:11,color:"#999"}}>Personalized by Claude AI</div>
+                <div style={{fontSize:11,color:"#999"}}>Personalized weekly tips</div>
               </div>
             </div>
             {loading&&<div style={{color:"#bbb",fontStyle:"italic",textAlign:"center",padding:16,fontSize:13}}>{t.loadingAi}</div>}
