@@ -1558,7 +1558,7 @@ export default function App(){
     setMeta("twitter:description","Calculate your due date and get personalized pregnancy tips. Free forever.");
     let can=document.querySelector("link[rel=canonical]");
     if(!can){can=document.createElement("link");can.rel="canonical";document.head.appendChild(can);}
-    can.href="https://www.motherpregnancy.com";
+    can.href="https://motherpregnancy.com";
     const schema=document.createElement("script");
     schema.type="application/ld+json";
     schema.textContent=JSON.stringify({"@context":"https://schema.org","@type":"WebSite","name":"Mother Pregnancy Care","url":"https://www.motherpregnancy.com","description":"Free pregnancy due date calculator with week-by-week guides, baby milestones, and expert articles."});
