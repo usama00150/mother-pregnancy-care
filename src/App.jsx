@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation, useParams, Link } from "react-router-dom";
 
 const PINK = {
   50:"#FFF0F5",100:"#FFD6E7",200:"#FFB3CE",300:"#FF80B0",
@@ -729,8 +730,11 @@ function AdBanner({slot="top"}){
 
 function MedicalDisclaimer(){ return null; }
 
-function Nav({active,setActive,t,lang,setLang}){
+const ROUTES={Home:"/",Calculator:"/calculator",Milestones:"/milestones",Symptoms:"/symptoms",Nutrition:"/nutrition",Blog:"/blog",FAQ:"/faq","About & Contact":"/about","Privacy & Terms":"/privacy","Terms of Service":"/terms"};
+
+function Nav({t,lang,setLang}){
   const [open,setOpen]=useState(false);
+  const location=useLocation();
   const items=[
     {key:"Home",      label:t.navHome,       icon:"🏠"},
     {key:"Calculator",label:t.navCalc,       icon:"🗓️"},
@@ -742,7 +746,11 @@ function Nav({active,setActive,t,lang,setLang}){
     {key:"About & Contact",label:t.navAbout, icon:"💌"},
   ];
 
-  const go=(key)=>{setActive(key);setOpen(false);};
+  const isActive=(key)=>{
+    const path=ROUTES[key];
+    if(path==="/") return location.pathname==="/";
+    return location.pathname.startsWith(path);
+  };
 
   return(
     <header className="site-header">
@@ -756,17 +764,17 @@ function Nav({active,setActive,t,lang,setLang}){
 
       {/* Main nav row */}
       <div className="nav-row">
-        <div className="nav-logo" onClick={()=>go("Home")}>
+        <Link to="/" className="nav-logo" onClick={()=>setOpen(false)} style={{textDecoration:"none"}}>
           <span className="nav-logo-icon">🤰</span>
           <span className="nav-logo-text">Mother Pregnancy Care</span>
-        </div>
+        </Link>
 
         {/* Desktop links */}
         <div className="nav-links">
           {items.map(({key,label})=>(
-            <button key={key} onClick={()=>go(key)} className={`nav-link${active===key?" active":""}`}>
+            <Link key={key} to={ROUTES[key]} className={`nav-link${isActive(key)?" active":""}`}>
               {label}
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -786,10 +794,10 @@ function Nav({active,setActive,t,lang,setLang}){
       <div className={`mob-menu${open?" open":""}`}>
         <div className="mob-menu-inner">
           {items.map(({key,label,icon})=>(
-            <button key={key} onClick={()=>go(key)} className={`mob-link${active===key?" active":""}`}>
+            <Link key={key} to={ROUTES[key]} onClick={()=>setOpen(false)} className={`mob-link${isActive(key)?" active":""}`}>
               <span className="mob-link-icon">{icon}</span>
               <span>{label}</span>
-            </button>
+            </Link>
           ))}
         </div>
       </div>
@@ -798,15 +806,15 @@ function Nav({active,setActive,t,lang,setLang}){
 }
 
 
-function Hero({setActive,t}){
+function Hero({t}){
   return(
     <div style={{background:`linear-gradient(135deg,${PINK[50]} 0%,#fff 50%,${PINK[100]} 100%)`,padding:"52px 20px 44px",textAlign:"center"}}>
       <div style={{display:"inline-block",background:PINK[100],color:PINK[700],fontSize:10,fontWeight:700,padding:"4px 14px",borderRadius:99,marginBottom:16,letterSpacing:"0.06em"}}>{t.heroTag}</div>
       <h1 className="hero-h1" style={{fontFamily:"'Playfair Display',Georgia,serif",fontSize:"clamp(26px,4.5vw,46px)",fontWeight:700,color:PINK[800],margin:"0 0 14px",lineHeight:1.2}}>{t.heroTitle.split(",")[0]},<br/><span style={{color:PINK[500]}}>{t.heroTitle.split(",")[1]||""}</span></h1>
       <p style={{fontSize:15,color:"#666",maxWidth:520,margin:"0 auto 28px",lineHeight:1.7}}>{t.heroDesc}</p>
       <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginBottom:40}}>
-        <button onClick={()=>setActive("Calculator")} style={{background:PINK[500],color:"#fff",border:"none",borderRadius:12,padding:"13px 26px",fontSize:14,fontWeight:700,cursor:"pointer"}}>{t.calcBtn}</button>
-        <button onClick={()=>setActive("Milestones")} style={{background:"#fff",color:PINK[600],border:`2px solid ${PINK[300]}`,borderRadius:12,padding:"13px 26px",fontSize:14,fontWeight:700,cursor:"pointer"}}>{t.viewMilestones}</button>
+        <Link to="/calculator" style={{background:PINK[500],color:"#fff",border:"none",borderRadius:12,padding:"13px 26px",fontSize:14,fontWeight:700,cursor:"pointer",textDecoration:"none",display:"inline-block"}}>{t.calcBtn}</Link>
+        <Link to="/milestones" style={{background:"#fff",color:PINK[600],border:`2px solid ${PINK[300]}`,borderRadius:12,padding:"13px 26px",fontSize:14,fontWeight:700,cursor:"pointer",textDecoration:"none",display:"inline-block"}}>{t.viewMilestones}</Link>
       </div>
       <div style={{display:"flex",gap:32,justifyContent:"center",flexWrap:"wrap"}}>
         {[["2M+","Moms helped"],["40","Weeks tracked"],["100%","Free forever"],["AI","Powered tips"]].map(([v,l])=>(
@@ -820,7 +828,7 @@ function Hero({setActive,t}){
   );
 }
 
-function FeaturesSection({setActive,t}){
+function FeaturesSection({t}){
   const features=[
     {icon:"🗓️",title:t.navCalc,desc:"Accurate due date with AI-personalized weekly tips for your current stage.",page:"Calculator"},
     {icon:"✨",title:t.navMilestones,desc:"Track your baby's development from poppy seed to watermelon week by week.",page:"Milestones"},
@@ -836,11 +844,11 @@ function FeaturesSection({setActive,t}){
         <p style={{color:"#777",fontSize:14,textAlign:"center",marginBottom:28}}>Trusted by millions of moms worldwide</p>
         <div className="features-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))",gap:14}}>
           {features.map(f=>(
-            <div key={f.title} onClick={()=>setActive(f.page)} style={{background:"#fff",border:`1.5px solid ${PINK[200]}`,borderRadius:16,padding:18,cursor:"pointer"}}>
+            <Link key={f.title} to={ROUTES[f.page]} style={{background:"#fff",border:`1.5px solid ${PINK[200]}`,borderRadius:16,padding:18,cursor:"pointer",textDecoration:"none",display:"block"}}>
               <div style={{fontSize:26,marginBottom:10}}>{f.icon}</div>
               <div style={{fontWeight:700,color:PINK[800],marginBottom:5,fontSize:13}}>{f.title}</div>
               <div style={{fontSize:12,color:"#888",lineHeight:1.6}}>{f.desc}</div>
-            </div>
+            </Link>
           ))}
         </div>
         <AdBanner slot="top"/>
@@ -1117,16 +1125,32 @@ function Nutrition(){
   );
 }
 
-function ArticlePage({article, onBack}){
+function ArticlePage(){
+  const { articleId } = useParams();
+  const navigate = useNavigate();
+  const article = ARTICLES.find(a=>a.id===articleId);
+
   useEffect(()=>{
-    document.title=`${article.title} — Mother Pregnancy Care`;
+    if(article){
+      document.title=`${article.title} — Mother Pregnancy Care`;
+    }
     window.scrollTo({top:0,behavior:"smooth"});
     return()=>{ document.title="Mother Pregnancy Care | Due Date Calculator & Pregnancy Guide"; };
   },[article]);
+
+  if(!article){
+    return(
+      <div style={{maxWidth:720,margin:"0 auto",padding:"60px 16px",textAlign:"center"}}>
+        <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:24,color:PINK[800]}}>Article not found</h1>
+        <Link to="/blog" style={{color:PINK[500],fontWeight:700}}>← Back to all articles</Link>
+      </div>
+    );
+  }
+
   return(
     <div style={{maxWidth:720,margin:"0 auto",padding:"32px 16px"}}>
       {/* Back button */}
-      <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:PINK[600],fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:24,padding:0}}>
+      <button onClick={()=>navigate("/blog")} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:PINK[600],fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:24,padding:0}}>
         ← Back to Articles
       </button>
       {/* Article header */}
@@ -1163,6 +1187,16 @@ function ArticlePage({article, onBack}){
         })}
       </div>
 
+      {/* Medically Reviewed Badge */}
+      <div style={{background:`linear-gradient(135deg,${PINK[50]},#fff)`,border:`1.5px solid ${PINK[200]}`,borderRadius:16,padding:"18px 22px",marginBottom:20,display:"flex",alignItems:"flex-start",gap:14}}>
+        <div style={{background:PINK[100],borderRadius:"50%",width:42,height:42,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0}}>✅</div>
+        <div>
+          <div style={{fontSize:11,fontWeight:700,color:PINK[600],letterSpacing:"0.04em",marginBottom:3,textTransform:"uppercase"}}>Medically Reviewed</div>
+          <div style={{fontSize:14,color:PINK[800],fontWeight:700,marginBottom:2}}>Dr. Amra Lodhi</div>
+          <div style={{fontSize:12,color:"#777",lineHeight:1.6}}>Gynecologist, Amra Medical Center — This article has been medically reviewed for accuracy.</div>
+        </div>
+      </div>
+
       <AdBanner slot="rect"/>
 
       {/* Related articles */}
@@ -1170,11 +1204,11 @@ function ArticlePage({article, onBack}){
         <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:20,color:PINK[800],marginBottom:14}}>More Articles You Might Like</h3>
         <div className="blog-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:14}}>
           {ARTICLES.filter(a=>a.id!==article.id).slice(0,3).map(a=>(
-            <div key={a.id} onClick={()=>onBack(a)} style={{background:"#fff",border:`1.5px solid ${PINK[200]}`,borderRadius:14,padding:16,cursor:"pointer"}}>
+            <Link key={a.id} to={`/blog/${a.id}`} style={{background:"#fff",border:`1.5px solid ${PINK[200]}`,borderRadius:14,padding:16,cursor:"pointer",textDecoration:"none",display:"block"}}>
               <div style={{fontSize:20,marginBottom:7}}>{a.icon}</div>
               <div style={{fontWeight:700,color:PINK[800],fontSize:13,marginBottom:5,lineHeight:1.4}}>{a.title}</div>
               <div style={{fontSize:11,color:PINK[500],fontWeight:700}}>Read →</div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -1183,14 +1217,6 @@ function ArticlePage({article, onBack}){
 }
 
 function Blog(){
-  const [openArticle,setOpenArticle]=useState(null);
-
-  useEffect(()=>{ if(openArticle) window.scrollTo({top:0,behavior:"smooth"}); },[openArticle]);
-
-  if(openArticle){
-    return <ArticlePage article={openArticle} onBack={(next)=>{ if(next&&next.id){setOpenArticle(next);}else{setOpenArticle(null);} }}/>;
-  }
-
   return(
     <div style={{maxWidth:760,margin:"0 auto",padding:"36px 16px"}}>
       <div style={{textAlign:"center",marginBottom:28}}>
@@ -1200,7 +1226,7 @@ function Blog(){
       <AdBanner slot="top"/>
       <div className="blog-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:16,marginBottom:22}}>
         {ARTICLES.map(a=>(
-          <div key={a.id} onClick={()=>setOpenArticle(a)} style={{background:"#fff",border:`1.5px solid ${PINK[200]}`,borderRadius:16,padding:20,cursor:"pointer",transition:"border-color 0.2s"}}
+          <Link key={a.id} to={`/blog/${a.id}`} style={{background:"#fff",border:`1.5px solid ${PINK[200]}`,borderRadius:16,padding:20,cursor:"pointer",transition:"border-color 0.2s",textDecoration:"none",display:"block"}}
             onMouseEnter={e=>e.currentTarget.style.borderColor=PINK[400]}
             onMouseLeave={e=>e.currentTarget.style.borderColor=PINK[200]}>
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
@@ -1211,7 +1237,7 @@ function Blog(){
             <h3 style={{fontSize:14,fontWeight:700,color:PINK[800],margin:"0 0 7px",lineHeight:1.4}}>{a.title}</h3>
             <p style={{fontSize:12,color:"#777",margin:"0 0 12px",lineHeight:1.6}}>{a.desc}</p>
             <div style={{fontSize:12,color:PINK[500],fontWeight:700}}>Read full article →</div>
-          </div>
+          </Link>
         ))}
       </div>
       <div style={{background:PINK[50],border:`1.5px solid ${PINK[200]}`,borderRadius:16,padding:22,textAlign:"center",marginBottom:20}}>
@@ -1405,7 +1431,7 @@ function TermsOfService(){
 }
 
 
-function Footer({setActive,t}){
+function Footer({t}){
   const tools=["Calculator","Milestones","Symptoms","Nutrition","Blog","FAQ"];
   return(
     <footer style={{background:PINK[800],color:"#fff",padding:"44px 16px 24px",marginTop:40}}>
@@ -1419,13 +1445,13 @@ function Footer({setActive,t}){
           <div>
             <div style={{fontWeight:700,fontSize:11,marginBottom:10,color:PINK[200],letterSpacing:"0.06em"}}>TOOLS</div>
             {tools.map(l=>(
-              <button key={l} onClick={()=>setActive(l)} style={{display:"block",background:"none",border:"none",color:PINK[100],fontSize:12,cursor:"pointer",padding:"0 0 7px",textAlign:"left"}}>{l}</button>
+              <Link key={l} to={ROUTES[l]} style={{display:"block",background:"none",border:"none",color:PINK[100],fontSize:12,cursor:"pointer",padding:"0 0 7px",textAlign:"left",textDecoration:"none"}}>{l}</Link>
             ))}
           </div>
           <div>
             <div style={{fontWeight:700,fontSize:11,marginBottom:10,color:PINK[200],letterSpacing:"0.06em"}}>COMPANY</div>
             {[["Home",t.navHome],["About & Contact",t.navAbout],["Privacy & Terms",t.navPrivacy],["Terms of Service","Terms of Service"]].map(([page,label])=>(
-              <button key={page} onClick={()=>setActive(page)} style={{display:"block",background:"none",border:"none",color:PINK[100],fontSize:12,cursor:"pointer",padding:"0 0 7px",textAlign:"left"}}>{label}</button>
+              <Link key={page} to={ROUTES[page]} style={{display:"block",background:"none",border:"none",color:PINK[100],fontSize:12,cursor:"pointer",padding:"0 0 7px",textAlign:"left",textDecoration:"none"}}>{label}</Link>
             ))}
           </div>
           <div>
@@ -1442,8 +1468,62 @@ function Footer({setActive,t}){
   );
 }
 
+function PageTitleUpdater(){
+  const location=useLocation();
+  useEffect(()=>{
+    window.scrollTo({top:0,behavior:"smooth"});
+    const titles={
+      "/":"Mother Pregnancy Care | Free Pregnancy Due Date Calculator",
+      "/calculator":"Pregnancy Due Date Calculator | Mother Pregnancy Care",
+      "/milestones":"Pregnancy Milestones Week by Week | Mother Pregnancy Care",
+      "/symptoms":"Pregnancy Symptoms by Trimester | Mother Pregnancy Care",
+      "/nutrition":"Pregnancy Nutrition Guide | Mother Pregnancy Care",
+      "/blog":"Pregnancy Articles & Expert Guides | Mother Pregnancy Care",
+      "/faq":"Pregnancy FAQs Answered | Mother Pregnancy Care",
+      "/about":"About Mother Pregnancy Care",
+      "/privacy":"Privacy Policy | Mother Pregnancy Care",
+      "/terms":"Terms of Service | Mother Pregnancy Care",
+    };
+    if(titles[location.pathname]){
+      document.title=titles[location.pathname];
+    }
+  },[location.pathname]);
+  return null;
+}
+
+function AppLayout({t,lang,setLang,cookieConsent,handleCookieAccept,handleCookieDecline}){
+  const location=useLocation();
+  return(
+    <div style={{fontFamily:"'Segoe UI',system-ui,sans-serif",background:"#FAFAFA",minHeight:"100vh",paddingBottom:cookieConsent?0:80}}>
+      <Nav t={t} lang={lang} setLang={setLang}/>
+      <PageTitleUpdater/>
+      <main>
+        <div key={location.pathname} className="page-enter">
+          <Routes>
+            <Route path="/" element={<><Hero t={t}/><FeaturesSection t={t}/><Testimonials/></>}/>
+            <Route path="/calculator" element={<Calculator t={t}/>}/>
+            <Route path="/milestones" element={<Milestones/>}/>
+            <Route path="/symptoms" element={<Symptoms/>}/>
+            <Route path="/nutrition" element={<Nutrition/>}/>
+            <Route path="/blog" element={<Blog/>}/>
+            <Route path="/blog/:articleId" element={<ArticlePage/>}/>
+            <Route path="/faq" element={<FAQ/>}/>
+            <Route path="/privacy" element={<PrivacyTerms/>}/>
+            <Route path="/terms" element={<TermsOfService/>}/>
+            <Route path="/about" element={<AboutContact/>}/>
+          </Routes>
+        </div>
+        <MedicalDisclaimer/>
+      </main>
+      <Footer t={t}/>
+      {!cookieConsent && (
+        <CookieBanner onAccept={handleCookieAccept} onDecline={handleCookieDecline}/>
+      )}
+    </div>
+  );
+}
+
 export default function App(){
-  const [active,setActive]=useState("Home");
   const [lang,setLang]=useState("en");
   const [cookieConsent,setCookieConsent]=useState(()=>{
     try{ return localStorage.getItem("bb_cookie_consent") || null; }catch{ return null; }
@@ -1470,26 +1550,20 @@ export default function App(){
     setMeta("robots","index, follow");
     setMeta("author","Mother Pregnancy Care");
     setMeta("og:title","Mother Pregnancy Care | Free Pregnancy Calculator & Expert Guides",true);
-    setMeta("og:description","Your free AI-powered pregnancy companion. Due date calculator, baby milestones, nutrition guide, and 20+ expert articles.",true);
+    setMeta("og:description","Your free pregnancy companion. Due date calculator, baby milestones, nutrition guide, and 20+ expert articles.",true);
     setMeta("og:type","website",true);
     setMeta("og:site_name","Mother Pregnancy Care",true);
     setMeta("twitter:card","summary_large_image");
     setMeta("twitter:title","Mother Pregnancy Care | Free Pregnancy Calculator");
-    setMeta("twitter:description","Calculate your due date and get personalized AI pregnancy tips. Free forever.");
+    setMeta("twitter:description","Calculate your due date and get personalized pregnancy tips. Free forever.");
     let can=document.querySelector("link[rel=canonical]");
     if(!can){can=document.createElement("link");can.rel="canonical";document.head.appendChild(can);}
-    can.href="https://www.motherpregnancycare.com";
+    can.href="https://www.motherpregnancy.com";
     const schema=document.createElement("script");
     schema.type="application/ld+json";
-    schema.textContent=JSON.stringify({"@context":"https://schema.org","@type":"WebSite","name":"Mother Pregnancy Care","url":"https://www.motherpregnancycare.com","description":"Free AI-powered pregnancy due date calculator with week-by-week guides, baby milestones, and expert articles."});
+    schema.textContent=JSON.stringify({"@context":"https://schema.org","@type":"WebSite","name":"Mother Pregnancy Care","url":"https://www.motherpregnancy.com","description":"Free pregnancy due date calculator with week-by-week guides, baby milestones, and expert articles."});
     document.head.appendChild(schema);
   },[]);
-
-  useEffect(()=>{
-    window.scrollTo({top:0,behavior:"smooth"});
-    const titles={"Home":"Mother Pregnancy Care Free AI Pregnancy Due Date Calculator","Calculator":"Pregnancy Due Date Calculator Mother Pregnancy Care","Milestones":"Pregnancy Milestones Week by Week Mother Pregnancy Care","Symptoms":"Pregnancy Symptoms by Trimester Mother Pregnancy Care","Nutrition":"Pregnancy Nutrition Guide Mother Pregnancy Care","Blog":"Pregnancy Articles & Expert Guides Mother Pregnancy Care","FAQ":"Pregnancy FAQs Answered Mother Pregnancy Care","About & Contact":"About Mother Pregnancy Care","Privacy & Terms":"Privacy Policy Mother Pregnancy Care","Terms of Service":"Terms of Service Mother Pregnancy Care"};
-    document.title=titles[active]||"Mother Pregnancy Care | Free Pregnancy Calculator";
-  },[active]);
 
   const handleCookieAccept=()=>{
     try{localStorage.setItem("bb_cookie_consent","all");}catch{}
@@ -1500,39 +1574,16 @@ export default function App(){
     setCookieConsent("essential");
   };
 
-  const renderPage=()=>{
-    const wrap=(el)=><div key={active} className="page-enter">{el}</div>;
-    switch(active){
-      case "Calculator": return wrap(<Calculator t={t}/>);
-      case "Milestones": return wrap(<Milestones/>);
-      case "Symptoms": return wrap(<Symptoms/>);
-      case "Nutrition": return wrap(<Nutrition/>);
-      case "Blog": return wrap(<Blog/>);
-      case "FAQ": return wrap(<FAQ/>);
-      case "Privacy & Terms": return wrap(<PrivacyTerms/>);
-      case "Terms of Service": return wrap(<TermsOfService/>);
-      case "About & Contact": return wrap(<AboutContact/>);
-      default: return wrap(
-        <>
-          <Hero setActive={setActive} t={t}/>
-          <FeaturesSection setActive={setActive} t={t}/>
-          <Testimonials/>
-        </>
-      );
-    }
-  };
-
   return(
-    <div style={{fontFamily:"'Segoe UI',system-ui,sans-serif",background:"#FAFAFA",minHeight:"100vh",paddingBottom:cookieConsent?0:80}}>
-      <Nav active={active} setActive={setActive} t={t} lang={lang} setLang={setLang}/>
-      <main>
-        {renderPage()}
-        <MedicalDisclaimer/>
-      </main>
-      <Footer setActive={setActive} t={t}/>
-      {!cookieConsent && (
-        <CookieBanner onAccept={handleCookieAccept} onDecline={handleCookieDecline}/>
-      )}
-    </div>
+    <BrowserRouter>
+      <AppLayout
+        t={t}
+        lang={lang}
+        setLang={setLang}
+        cookieConsent={cookieConsent}
+        handleCookieAccept={handleCookieAccept}
+        handleCookieDecline={handleCookieDecline}
+      />
+    </BrowserRouter>
   );
 }
